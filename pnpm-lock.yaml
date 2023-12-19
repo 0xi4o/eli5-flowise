@@ -167,7 +167,7 @@ importers:
         specifier: 8.37.0
         version: 8.37.0
       flowise-embed:
-        specifier: '*'
+        specifier: workspace:*
         version: link:../FlowiseChatEmbed
       react:
         specifier: 18.2.0
