@@ -3,6 +3,8 @@ import { JSX } from 'solid-js/jsx-runtime';
 import { SendIcon } from './icons';
 import { DeleteIcon } from './icons/DeleteIcon';
 import { ClipboardIcon } from './icons/ClipboardIcon';
+import { ThumbsUpIcon } from './icons/ThumbsUpIcon';
+import { ThumbsDownIcon } from './icons/ThumbsDownIcon';
 
 type SendButtonProps = {
   sendButtonColor?: string;
@@ -11,8 +13,8 @@ type SendButtonProps = {
   disableIcon?: boolean;
 } & JSX.ButtonHTMLAttributes<HTMLButtonElement>;
 
-type CopyToClipboardButtonProps = {
-  copyTextToClipboard: () => void;
+type RatingButtonProps = {
+  rating?: string;
 } & SendButtonProps;
 
 export const SendButton = (props: SendButtonProps) => {
@@ -53,21 +55,60 @@ export const DeleteButton = (props: SendButtonProps) => {
   );
 };
 
-export const CopyToClipboardButton = (props: CopyToClipboardButtonProps) => {
+export const CopyToClipboardButton = (props: SendButtonProps) => {
   return (
     <button
       disabled={props.isDisabled || props.isLoading}
       {...props}
       class={
-        'py-2 px-4 justify-center font-semibold text-white focus:outline-none flex items-center disabled:opacity-50 disabled:cursor-not-allowed disabled:brightness-100 transition-all filter hover:brightness-90 active:brightness-75 chatbot-button ' +
+        'p-2 justify-center font-semibold text-white focus:outline-none flex items-center disabled:opacity-50 disabled:cursor-not-allowed disabled:brightness-100 transition-all filter hover:brightness-90 active:brightness-75 chatbot-button ' +
         props.class
       }
       style={{ background: 'transparent', border: 'none' }}
       title="Copy to clipboard"
-      onClick={() => props.copyTextToClipboard}
     >
       <Show when={!props.isLoading} fallback={<Spinner class="text-white" />}>
         <ClipboardIcon color={props.sendButtonColor} class={'send-icon flex ' + (props.disableIcon ? 'hidden' : '')} />
+      </Show>
+    </button>
+  );
+};
+
+export const ThumbsUpButton = (props: RatingButtonProps) => {
+  return (
+    <button
+      type="submit"
+      disabled={props.isDisabled || props.isLoading}
+      {...props}
+      class={
+        'p-2 justify-center font-semibold text-white focus:outline-none flex items-center disabled:opacity-50 disabled:cursor-not-allowed disabled:brightness-100 transition-all filter hover:brightness-90 active:brightness-75 chatbot-button ' +
+        props.class
+      }
+      style={{ background: props.rating === 'thumbsUp' ? 'gray' : 'transparent', border: 'none' }}
+      title="Thumbs Up"
+    >
+      <Show when={!props.isLoading} fallback={<Spinner class="text-white" />}>
+        <ThumbsUpIcon color={props.sendButtonColor} class={'send-icon flex ' + (props.disableIcon ? 'hidden' : '')} />
+      </Show>
+    </button>
+  );
+};
+
+export const ThumbsDownButton = (props: RatingButtonProps) => {
+  return (
+    <button
+      type="submit"
+      disabled={props.isDisabled || props.isLoading}
+      {...props}
+      class={
+        'p-2 justify-center font-semibold text-white focus:outline-none flex items-center disabled:opacity-50 disabled:cursor-not-allowed disabled:brightness-100 transition-all filter hover:brightness-90 active:brightness-75 chatbot-button ' +
+        props.class
+      }
+      style={{ background: props.rating === 'thumbsDown' ? 'gray' : 'transparent', border: 'none' }}
+      title="Thumbs Down"
+    >
+      <Show when={!props.isLoading} fallback={<Spinner class="text-white" />}>
+        <ThumbsDownIcon color={props.sendButtonColor} class={'send-icon flex ' + (props.disableIcon ? 'hidden' : '')} />
       </Show>
     </button>
   );
