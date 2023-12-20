@@ -2,12 +2,13 @@ import { FullPageChat } from 'flowise-embed-react'
 
 type Props = {
 	apiHost: string
+	chatflowid: string
 }
 
 const FlowiseChat = (props: Props) => {
 	return (
 		<FullPageChat
-			chatflowid='70704781-5c6b-439c-8542-cd2f52966f07'
+			chatflowid={props.chatflowid}
 			apiHost={props.apiHost}
 			// theme={{
 			// 	chatWindow: {

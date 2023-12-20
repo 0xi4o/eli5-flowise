@@ -2,8 +2,9 @@
 import BaseLayout from '../layout/BaseLayout.astro'
 import FlowiseChat from '../components/FlowiseChat'
 const apiHost: string = `${import.meta.env.FLOWISE_API_HOST}`
+const chatflowid: string = `${import.meta.env.FLOWISE_CHATFLOW_ID}`
 ---
 
 <BaseLayout>
-	<FlowiseChat client:load apiHost={apiHost} />
+	<FlowiseChat client:load apiHost={apiHost} chatflowid={chatflowid} />
 </BaseLayout>
