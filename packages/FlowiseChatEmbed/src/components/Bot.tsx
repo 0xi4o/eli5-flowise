@@ -1,6 +1,6 @@
 import { createSignal, createEffect, For, onMount, Show } from 'solid-js';
 import { v4 as uuidv4 } from 'uuid';
-import {sendMessageQuery, isStreamAvailableQuery, IncomingInput, getChatbotConfig} from '@/queries/sendMessageQuery';
+import { sendMessageQuery, isStreamAvailableQuery, IncomingInput, getChatbotConfig } from '@/queries/sendMessageQuery';
 import { TextInput } from './inputs/textInput';
 import { GuestBubble } from './bubbles/GuestBubble';
 import { BotBubble } from './bubbles/BotBubble';
@@ -17,6 +17,7 @@ import { DeleteButton } from '@/components/SendButton';
 type messageType = 'apiMessage' | 'userMessage' | 'usermessagewaiting';
 
 export type MessageType = {
+  messageId?: string;
   message: string;
   type: messageType;
   sourceDocuments?: any;
@@ -141,7 +142,7 @@ export const Bot = (props: BotProps & { class?: string }) => {
   const [socketIOClientId, setSocketIOClientId] = createSignal('');
   const [isChatFlowAvailableToStream, setIsChatFlowAvailableToStream] = createSignal(false);
   const [chatId, setChatId] = createSignal(uuidv4());
-  const [starterPrompts, setStarterPrompts] = createSignal<string[]>([], {equals: false});
+  const [starterPrompts, setStarterPrompts] = createSignal<string[]>([], { equals: false });
 
   onMount(() => {
     if (!bottomSpacer) return;
@@ -203,7 +204,7 @@ export const Bot = (props: BotProps & { class?: string }) => {
 
   const promptClick = (prompt: string) => {
     handleSubmit(prompt);
-  }
+  };
 
   // Handle form submission
   const handleSubmit = async (value: string) => {
@@ -253,10 +254,27 @@ export const Bot = (props: BotProps & { class?: string }) => {
         setMessages((prevMessages) => {
           const messages: MessageType[] = [
             ...prevMessages,
-            { message: text, sourceDocuments: data?.sourceDocuments, fileAnnotations: data?.fileAnnotations, type: 'apiMessage' },
+            {
+              messageId: data?.messageId,
+              message: text,
+              sourceDocuments: data?.sourceDocuments,
+              fileAnnotations: data?.fileAnnotations,
+              type: 'apiMessage',
+            },
           ];
           addChatMessage(messages);
           return messages;
+        });
+      } else {
+        setMessages((items) => {
+          const updated = items.map((item, i) => {
+            if (i === items.length - 1) {
+              return { ...item, messageId: data?.messageId };
+            }
+            return item;
+          });
+          addChatMessage(updated);
+          return [...updated];
         });
       }
       setLoading(false);
@@ -306,6 +324,7 @@ export const Bot = (props: BotProps & { class?: string }) => {
       setChatId(objChatMessage.chatId);
       const loadedMessages = objChatMessage.chatHistory.map((message: MessageType) => {
         const chatHistory: MessageType = {
+          messageId: message?.messageId,
           message: message.message,
           type: message.type,
         };
@@ -333,11 +352,11 @@ export const Bot = (props: BotProps & { class?: string }) => {
     });
 
     if (result.data) {
-      const chatbotConfig = result.data
+      const chatbotConfig = result.data;
       if (chatbotConfig.starterPrompts) {
-        const prompts: string[] = []
+        const prompts: string[] = [];
         Object.getOwnPropertyNames(chatbotConfig.starterPrompts).forEach((key) => {
-          prompts.push(chatbotConfig.starterPrompts[key].prompt)
+          prompts.push(chatbotConfig.starterPrompts[key].prompt);
         });
         setStarterPrompts(prompts);
       }
@@ -423,8 +442,10 @@ export const Bot = (props: BotProps & { class?: string }) => {
                   )}
                   {message.type === 'apiMessage' && (
                     <BotBubble
-                      message={message.message}
+                      message={message}
                       fileAnnotations={message.fileAnnotations}
+                      chatflowid={props.chatflowid}
+                      chatId={chatId()}
                       apiHost={props.apiHost}
                       backgroundColor={props.botMessage?.backgroundColor}
                       textColor={props.botMessage?.textColor}
@@ -509,15 +530,8 @@ export const Bot = (props: BotProps & { class?: string }) => {
         </div>
         <Show when={messages().length === 1}>
           <Show when={starterPrompts().length > 0}>
-            <div style={{ display: 'flex', 'flex-direction': 'row', padding: '10px', width: '100%', "flex-wrap": 'wrap'}}>
-              <For each={[...starterPrompts()]}>
-                {(key) => (
-                  <StarterPromptBubble
-                    prompt={key}
-                    onPromptClick={() => promptClick(key)}
-                  />
-                )}
-              </For>
+            <div style={{ display: 'flex', 'flex-direction': 'row', padding: '10px', width: '100%', 'flex-wrap': 'wrap' }}>
+              <For each={[...starterPrompts()]}>{(key) => <StarterPromptBubble prompt={key} onPromptClick={() => promptClick(key)} />}</For>
             </div>
           </Show>
         </Show>
