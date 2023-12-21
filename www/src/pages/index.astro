@@ -3,6 +3,9 @@ import { Image } from 'astro:assets'
 
 import BaseLayout from '../layout/BaseLayout.astro'
 import FlowiseChat from '../components/FlowiseChat'
+
+import image from '../assets//flowise-view-messages.png'
+
 const apiHost: string = `${import.meta.env.FLOWISE_API_HOST}`
 const chatflowid: string = `${import.meta.env.FLOWISE_CHATFLOW_ID}`
 ---
@@ -79,7 +82,7 @@ const chatflowid: string = `${import.meta.env.FLOWISE_CHATFLOW_ID}`
 			<a href='/flowise-view-messages.png' target='_blank'>
 				<Image
 					alt='Flowise View Messages Dialog'
-					src='/flowise-view-messages.png'
+					src={image}
 					width={640}
 					height={350}
 				/>
