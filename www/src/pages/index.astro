@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets'
+
 import BaseLayout from '../layout/BaseLayout.astro'
 import FlowiseChat from '../components/FlowiseChat'
 const apiHost: string = `${import.meta.env.FLOWISE_API_HOST}`
@@ -6,5 +8,139 @@ const chatflowid: string = `${import.meta.env.FLOWISE_CHATFLOW_ID}`
 ---
 
 <BaseLayout>
+	<main class='container max-w-[40rem] px-8 pb-12 md:mx-auto md:px-0'>
+		<div class='ml-0 mt-16 text-[1.75rem] leading-8'>Hello, there!</div>
+
+		<div class='ml-0 mt-[3.75rem] text-lg leading-[1.875rem]'>
+			This is a test page for an ELI5 (Explain Like I'm 5) chatbot built
+			with <a href='https://flowiseai.com/'>Flowise</a>, built to showcase
+			the feedback functionality for messages sent by the chatbot.
+		</div>
+
+		<div class='ml-0 mt-[2rem] text-lg leading-[1.875rem]'>
+			<h2 class='text-xl font-semibold'>Details:</h2>
+		</div>
+
+		<div class='ml-0 mt-4 text-lg leading-[1.875rem]'>
+			The Flowise admin dashboard is hosted on Railway: <a
+				href='https://flowise-ilango.up.railway.app/'
+				>flowise-ilango.up.railway.app</a
+			>. Credentials for logging in to the dashboard: "ilango_flowise"
+			(username and password). Backend is a MySQL database also hosted on
+			Railway. This page was built with Astro and is hosted on Vercel.
+		</div>
+
+		<div class='ml-0 mt-4 text-lg leading-[1.875rem]'>
+			The code for projects are here:
+			<ul class='ml-7 list-disc'>
+				<li>
+					<a href='https://github.com/0xi4o/Flowise'
+						>Flowise Dashboard</a
+					>. The main changes made here are:
+					<ul class='ml-7 list-disc'>
+						<li>
+							Added new database entity for chat message feedbacks
+						</li>
+						<li>
+							Added new API endpoints for adding and updating chat
+							message feedbacks
+						</li>
+						<li>
+							Added new API endpoint for calculating stats for
+							chat messages and feedbacks
+						</li>
+						<li>
+							Updated query parameter for fetching chat messages.
+							It takes an additional `feedback` option. When set
+							to `true`, it will fetch chat messages and for each
+							message, fetch the associated feedback.
+						</li>
+						<li>
+							Updated the view messages dialog to show stats and
+							feedback (rating and text) for each message
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href='https://github.com/0xi4o/eli5-flowise'
+						>ELI5 Chatbot App</a
+					>: the code changes for the FlowiseChatEmbed is also in this
+					repo.
+				</li>
+			</ul>
+		</div>
+
+		<div class='ml-0 mt-4 text-lg leading-[1.875rem]'>
+			The feedback given here can be viewed on the View Messages dialog in
+			the Chatflow canvas.
+		</div>
+
+		<div class='ml-0 mt-4 text-lg leading-[1.875rem]'>
+			<a href='/flowise-view-messages.png' target='_blank'>
+				<Image
+					alt='Flowise View Messages Dialog'
+					src='/flowise-view-messages.png'
+					width={640}
+					height={350}
+				/>
+			</a>
+		</div>
+
+		<div class='ml-0 mt-4 text-lg leading-[1.875rem]'>
+			Stats cards show the following:
+			<ul class='ml-7 list-disc'>
+				<li>
+					Total number of external messages sent and received in the
+					chatbot.
+				</li>
+				<li>
+					Total number of feedbacks received. Clicking on thumbs up or
+					thumbs down button saves the rating and opens a dialog.
+					Giving a written feedback is optional. If the user inputs
+					written feedback, the saved feedback is updated.
+				</li>
+				<li>
+					Number of positive feedbacks. This is a percentage of
+					positive feedbacks out of all feedbacks. Percent of negative
+					feedback could be easily calculated so I skipped it.
+				</li>
+			</ul>
+		</div>
+
+		<div class='ml-0 mt-4 text-lg leading-[1.875rem]'>
+			Each message in the view messages dialog will also show the feedback
+			received, for additional context. If user only gave a rating, it's
+			also displayed.
+		</div>
+
+		<div class='ml-0 mt-4 text-lg leading-[1.875rem]'>
+			Go ahead and give the chatbot a shot. Click on the chat widget and
+			input a hard concept. Here are some examples:
+			<ul class='ml-7 list-disc'>
+				<li>AI</li>
+				<li>Fermi's Paradox</li>
+				<li>Occam's Razor</li>
+				<li>Laws of Thermodynamic</li>
+			</ul>
+		</div>
+
+		<div class='ml-0 mt-4 text-lg leading-[1.875rem]'>
+			Then go to the Flowise dashboard and check the view messages dialog
+			for the ELI5 chatflow.
+		</div>
+
+		<div class='ml-0 mt-4 text-lg leading-[1.875rem]'>Have fun!</div>
+
+		<style>
+			a {
+				color: #0029ff;
+				text-decoration: underline;
+			}
+
+			a:visited {
+				color: #bc48d9;
+			}
+		</style>
+	</main>
 	<FlowiseChat client:load apiHost={apiHost} chatflowid={chatflowid} />
 </BaseLayout>
