@@ -208,6 +208,9 @@ importers:
       astro:
         specifier: ^4.0.6
         version: 4.0.6(typescript@5.3.3)
+      flowise-embed:
+        specifier: ^1.0.17
+        version: link:../packages/FlowiseChatEmbed
       flowise-embed-react:
         specifier: workspace:*
         version: link:../packages/FlowiseEmbedReact
