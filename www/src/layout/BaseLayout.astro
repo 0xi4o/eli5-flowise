@@ -1,3 +1,8 @@
+---
+const apiHost: string = `${import.meta.env.FLOWISE_API_HOST}`
+const chatflowid: string = `${import.meta.env.FLOWISE_CHATFLOW_ID}`
+---
+
 <html lang='en'>
 	<head>
 		<meta charset='utf-8' />
@@ -8,5 +13,17 @@
 	</head>
 	<body>
 		<slot />
-	</body>
+        <script is:inline type="module">
+            import Chatbot from './web.js';
+            Chatbot.initFull({
+                chatflowid: '<chatflowid>',
+                apiHost: 'http://localhost:3000',
+				theme: {
+					chatWindow: {
+						showTitle: true
+					}
+				}
+            });
+        </script>
+    </body>
 </html>

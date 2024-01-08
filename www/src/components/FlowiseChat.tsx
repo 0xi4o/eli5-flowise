@@ -6,7 +6,9 @@ type Props = {
 }
 
 const FlowiseChat = (props: Props) => {
-	return <BubbleChat chatflowid={props.chatflowid} apiHost={props.apiHost} />
+	return (
+		<FullPageChat chatflowid={props.chatflowid} apiHost={props.apiHost} />
+	)
 }
 
 export default FlowiseChat
