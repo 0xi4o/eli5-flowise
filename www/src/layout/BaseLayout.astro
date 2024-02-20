@@ -13,17 +13,5 @@ const chatflowid: string = `${import.meta.env.FLOWISE_CHATFLOW_ID}`
 	</head>
 	<body>
 		<slot />
-        <script is:inline type="module">
-            import Chatbot from './web.js';
-            Chatbot.initFull({
-                chatflowid: '<chatflowid>',
-                apiHost: 'http://localhost:3000',
-				theme: {
-					chatWindow: {
-						showTitle: true
-					}
-				}
-            });
-        </script>
     </body>
 </html>
