@@ -210,10 +210,7 @@ importers:
         version: 4.0.6(typescript@5.3.3)
       flowise-embed:
         specifier: ^1.0.17
-        version: link:../packages/FlowiseChatEmbed
-      flowise-embed-react:
-        specifier: workspace:*
-        version: link:../packages/FlowiseEmbedReact
+        version: 1.0.20
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -5134,6 +5131,22 @@ packages:
   /flattie@1.1.0:
     resolution: {integrity: sha512-xU99gDEnciIwJdGcBmNHnzTJ/w5AT+VFJOu6sTB6WM8diOYNA3Sa+K1DiEBQ7XH4QikQq3iFW1U+jRVcotQnBw==}
     engines: {node: '>=8'}
+    dev: false
+
+  /flowise-embed@1.0.20:
+    resolution: {integrity: sha512-lbJlObqzrCkCX552sm9eEM/8muNvZs8aTAoUlme7cl1d/7SemhxI0PnwG9WiGc8wAsjtiC0QVRG0kGe8wdpFIQ==}
+    dependencies:
+      '@babel/core': 7.23.6
+      '@ts-stack/markdown': 1.5.0
+      lodash: 4.17.21
+      prettier: 3.1.1
+      socket.io-client: 4.7.2
+      solid-element: 1.7.0(solid-js@1.7.1)
+      solid-js: 1.7.1
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
     dev: false
 
   /for-each@0.3.3:
